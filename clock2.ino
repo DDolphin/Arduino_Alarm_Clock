@@ -2,10 +2,10 @@
 #include <Time.h>
 #include <Wire.h>
 
-#define clockPin   3 //595's clock
-#define latchPin   4 //595's latch
+#define ClockPin   3 //595's clock
+#define LatchPin   4 //595's latch
 #define enablePin  5 //595's output enable (control the brightness of LEDs)
-#define dataPin    6 //595's data input
+#define DataPin    6 //595's data input
 #define buzzerPin  7 //buzzer
 
 tmElements_t tm;
@@ -14,9 +14,9 @@ void setup() {
 
   Serial.begin(9600);
 
-  pinMode(dataPin, OUTPUT);
-  pinMode(latchPin, OUTPUT);
-  pinMode(clockPin, OUTPUT);
+  pinMode(DataPin, OUTPUT);
+  pinMode(LatchPin, OUTPUT);
+  pinMode(ClockPin, OUTPUT);
   pinMode(enablePin, OUTPUT);  
   pinMode(buzzerPin, OUTPUT);
   digitalWrite(buzzerPin,HIGH);
@@ -72,33 +72,33 @@ void loop() {
 //trun on all LED
 void onAll(){
 
-  digitalWrite(latchPin, LOW);
-  shiftOut(dataPin, clockPin, MSBFIRST, 0b11111111);
-  shiftOut(dataPin, clockPin, MSBFIRST, 0b11111111);
-  shiftOut(dataPin, clockPin, MSBFIRST, 0b11111111);
-  digitalWrite(latchPin, HIGH);
+  digitalWrite(LatchPin, LOW);
+  shiftOut(DataPin, ClockPin, MSBFIRST, 0b11111111);
+  shiftOut(DataPin, ClockPin, MSBFIRST, 0b11111111);
+  shiftOut(DataPin, ClockPin, MSBFIRST, 0b11111111);
+  digitalWrite(LatchPin, HIGH);
 
 }
 
 //trun off all LED
 void offAll(){
 
-  digitalWrite(latchPin, LOW);
-  shiftOut(dataPin, clockPin, MSBFIRST, 0b00000000);
-  shiftOut(dataPin, clockPin, MSBFIRST, 0b00000000);
-  shiftOut(dataPin, clockPin, MSBFIRST, 0b00000000);
-  digitalWrite(latchPin, HIGH);
+  digitalWrite(LatchPin, LOW);
+  shiftOut(DataPin, ClockPin, MSBFIRST, 0b00000000);
+  shiftOut(DataPin, ClockPin, MSBFIRST, 0b00000000);
+  shiftOut(DataPin, ClockPin, MSBFIRST, 0b00000000);
+  digitalWrite(LatchPin, HIGH);
 
 }
 
 //turn on the flags
 void onFlag(){
 
-  digitalWrite(latchPin, LOW);
-  shiftOut(dataPin, clockPin, MSBFIRST, 0b00010001);
-  shiftOut(dataPin, clockPin, MSBFIRST, 0b00010001);
-  shiftOut(dataPin, clockPin, MSBFIRST, 0b00010001);
-  digitalWrite(latchPin, HIGH);
+  digitalWrite(LatchPin, LOW);
+  shiftOut(DataPin, ClockPin, MSBFIRST, 0b00010001);
+  shiftOut(DataPin, ClockPin, MSBFIRST, 0b00010001);
+  shiftOut(DataPin, ClockPin, MSBFIRST, 0b00010001);
+  digitalWrite(LatchPin, HIGH);
 
 }
 
@@ -108,31 +108,31 @@ void onHour(){
   byte H=0;
   bitSet(H,tm.Hour%8);
 
-  digitalWrite(latchPin, LOW);
+  digitalWrite(LatchPin, LOW);
   
   if(tm.Hour/8==0){
     
-    shiftOut(dataPin, clockPin, MSBFIRST, 0b00000000);
-    shiftOut(dataPin, clockPin, MSBFIRST, 0b00000000);
-    shiftOut(dataPin, clockPin, MSBFIRST, H);
+    shiftOut(DataPin, ClockPin, MSBFIRST, 0b00000000);
+    shiftOut(DataPin, ClockPin, MSBFIRST, 0b00000000);
+    shiftOut(DataPin, ClockPin, MSBFIRST, H);
     
   }  
   else if(tm.Hour/8==1){
 
-    shiftOut(dataPin, clockPin, MSBFIRST, 0b00000000);
-    shiftOut(dataPin, clockPin, MSBFIRST, H);
-    shiftOut(dataPin, clockPin, MSBFIRST, 0b00000000);
+    shiftOut(DataPin, ClockPin, MSBFIRST, 0b00000000);
+    shiftOut(DataPin, ClockPin, MSBFIRST, H);
+    shiftOut(DataPin, ClockPin, MSBFIRST, 0b00000000);
     
   }   
   else if(tm.Hour/8==2){
     
-    shiftOut(dataPin, clockPin, MSBFIRST, H);
-    shiftOut(dataPin, clockPin, MSBFIRST, 0b00000000);
-    shiftOut(dataPin, clockPin, MSBFIRST, 0b00000000);
+    shiftOut(DataPin, ClockPin, MSBFIRST, H);
+    shiftOut(DataPin, ClockPin, MSBFIRST, 0b00000000);
+    shiftOut(DataPin, ClockPin, MSBFIRST, 0b00000000);
     
   }
   
-  digitalWrite(latchPin, HIGH);
+  digitalWrite(LatchPin, HIGH);
 
 }
 
@@ -143,15 +143,15 @@ void onMinute(){
   a*=2;
   a/=5;
 
-  digitalWrite(latchPin, LOW);
+  digitalWrite(LatchPin, LOW);
 
   if(a<4){
 
     bitSet(M,a+4);
 
-    shiftOut(dataPin, clockPin, MSBFIRST, 0b00000000);
-    shiftOut(dataPin, clockPin, MSBFIRST, M);
-    shiftOut(dataPin, clockPin, MSBFIRST, 0b00000000);
+    shiftOut(DataPin, ClockPin, MSBFIRST, 0b00000000);
+    shiftOut(DataPin, ClockPin, MSBFIRST, M);
+    shiftOut(DataPin, ClockPin, MSBFIRST, 0b00000000);
     
   }
 
@@ -159,9 +159,9 @@ void onMinute(){
 
     bitSet(M,a-4);
 
-    shiftOut(dataPin, clockPin, MSBFIRST, M);
-    shiftOut(dataPin, clockPin, MSBFIRST, 0b00000000);
-    shiftOut(dataPin, clockPin, MSBFIRST, 0b00000000);
+    shiftOut(DataPin, ClockPin, MSBFIRST, M);
+    shiftOut(DataPin, ClockPin, MSBFIRST, 0b00000000);
+    shiftOut(DataPin, ClockPin, MSBFIRST, 0b00000000);
     
   } 
   
@@ -169,9 +169,9 @@ void onMinute(){
 
     bitSet(M,a-12);
 
-    shiftOut(dataPin, clockPin, MSBFIRST, 0b00000000);
-    shiftOut(dataPin, clockPin, MSBFIRST, 0b00000000);      
-    shiftOut(dataPin, clockPin, MSBFIRST, M);
+    shiftOut(DataPin, ClockPin, MSBFIRST, 0b00000000);
+    shiftOut(DataPin, ClockPin, MSBFIRST, 0b00000000);      
+    shiftOut(DataPin, ClockPin, MSBFIRST, M);
     
   }
 
@@ -179,13 +179,13 @@ void onMinute(){
 
     bitSet(M,a-20);
 
-    shiftOut(dataPin, clockPin, MSBFIRST, 0b00000000);
-    shiftOut(dataPin, clockPin, MSBFIRST, M);
-    shiftOut(dataPin, clockPin, MSBFIRST, 0b00000000);      
+    shiftOut(DataPin, ClockPin, MSBFIRST, 0b00000000);
+    shiftOut(DataPin, ClockPin, MSBFIRST, M);
+    shiftOut(DataPin, ClockPin, MSBFIRST, 0b00000000);      
 
   }
 
-  digitalWrite(latchPin, HIGH);
+  digitalWrite(LatchPin, HIGH);
 }
 
 
